@@ -47,7 +47,7 @@ implementation
 
 method FooConverter.CanConvertFrom(context: ITypeDescriptorContext;  sourceType: &Type): Boolean;
 begin
-  exit  (((sourceType = typeof(String)) or inherited CanConvertFrom(context, sourceType)));
+  exit  (((sourceType = typeOf(String)) or inherited CanConvertFrom(context, sourceType)));
 end;
 
 

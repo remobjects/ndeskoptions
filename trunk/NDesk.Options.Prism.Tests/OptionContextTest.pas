@@ -56,21 +56,21 @@ begin
     end);
 
   var lContext: OptionContext := new OptionContext(lOptionSet);
-  Utils.AssertException(typeof(InvalidOperationException), 'OptionContext.Option is null.', lContext, 
+  Utils.AssertException(typeOf(InvalidOperationException), 'OptionContext.Option is null.', lContext, 
     method(v: OptionContext);
     begin
       var ignore: String := v.OptionValues.Item[0];
     end);
 
   lContext.Option := lOptionSet.Item[0];
-  Utils.AssertException(typeof(ArgumentOutOfRangeException), 'Specified argument was out of the range of valid values.'#13#10'Parameter name: index', lContext,
+  Utils.AssertException(typeOf(ArgumentOutOfRangeException), 'Specified argument was out of the range of valid values.'#13#10'Parameter name: index', lContext,
     method(v: OptionContext);
     begin
       var ignore: String := v.OptionValues.Item[2];
     end);
   
   lContext.OptionName := '-a';
-  Utils.AssertException(typeof(OptionException), 'Missing required value for option ''-a''.', lContext,
+  Utils.AssertException(typeOf(OptionException), 'Missing required value for option ''-a''.', lContext,
     method(v: OptionContext);
     begin
       var ignore: String := v.OptionValues.Item[0];

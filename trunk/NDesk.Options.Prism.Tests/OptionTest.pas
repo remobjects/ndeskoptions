@@ -51,37 +51,37 @@ method OptionTest.Exceptions_Test();
 begin
   var p: Object := nil;
   
-  Utils.AssertException(typeof(ArgumentNullException), 'Value cannot be null.'#13#10'Parameter name: prototype', p, 
+  Utils.AssertException(typeOf(ArgumentNullException), 'Value cannot be null.'#13#10'Parameter name: prototype', p, 
     method (v: Object);
     begin
       new DefaultOption(nil, nil);
     end);
 
-  Utils.AssertException(typeof(ArgumentException), 'Cannot be an empty string.'#13#10'Parameter name: prototype', p, 
+  Utils.AssertException(typeOf(ArgumentException), 'Cannot be an empty string.'#13#10'Parameter name: prototype', p, 
     method (v: Object);
     begin
       new DefaultOption('', nil);
     end);
   
-  Utils.AssertException(typeof(ArgumentException), 'Empty option names are not supported.'#13#10'Parameter name: prototype', p,
+  Utils.AssertException(typeOf(ArgumentException), 'Empty option names are not supported.'#13#10'Parameter name: prototype', p,
     method(v: Object);
     begin
       new DefaultOption('a|b||c=', nil);
     end);
 
-  Utils.AssertException(typeof(ArgumentException), 'Conflicting option types: ''='' vs. '':''.'#13#10'Parameter name: prototype', p,
+  Utils.AssertException(typeOf(ArgumentException), 'Conflicting option types: ''='' vs. '':''.'#13#10'Parameter name: prototype', p,
     method(v: Object) ;
     begin
       new DefaultOption('a=|b:', nil);
     end);
 
-  Utils.AssertException(typeof(ArgumentException), 'The default option handler ''<>'' cannot require values.'#13#10'Parameter name: prototype', p, 
+  Utils.AssertException(typeOf(ArgumentException), 'The default option handler ''<>'' cannot require values.'#13#10'Parameter name: prototype', p, 
     method(v: Object) ;
     begin
       new DefaultOption('<>=', nil);
     end);
 
-  Utils.AssertException(typeof(ArgumentException), 'The default option handler ''<>'' cannot require values.'#13#10'Parameter name: prototype', p, 
+  Utils.AssertException(typeOf(ArgumentException), 'The default option handler ''<>'' cannot require values.'#13#10'Parameter name: prototype', p, 
     method(v: Object) ;
     begin
       new DefaultOption('<>:', nil)
@@ -93,7 +93,7 @@ begin
       new DefaultOption('t|<>=', nil, 1);
     end);
 
-  Utils.AssertException(typeof(ArgumentException), 'The default option handler ''<>'' cannot require values.'#13#10'Parameter name: prototype', p,
+  Utils.AssertException(typeOf(ArgumentException), 'The default option handler ''<>'' cannot require values.'#13#10'Parameter name: prototype', p,
     method(v: Object);
     begin
       new DefaultOption('t|<>=', nil, 2);
@@ -105,61 +105,61 @@ begin
       new DefaultOption('a|b=', nil, 2);
     end);
 
-  Utils.AssertException(typeof(ArgumentOutOfRangeException), 'Specified argument was out of the range of valid values.'#13#10'Parameter name: maxValueCount', p, 
+  Utils.AssertException(typeOf(ArgumentOutOfRangeException), 'Specified argument was out of the range of valid values.'#13#10'Parameter name: maxValueCount', p, 
     method(v: Object);
     begin
       new DefaultOption('a', nil, -1);
     end);
 
-  Utils.AssertException(typeof(ArgumentException), 'Cannot provide maxValueCount of 0 for OptionValueType.Required or OptionValueType.Optional.'#13#10'Parameter name: maxValueCount', p, 
+  Utils.AssertException(typeOf(ArgumentException), 'Cannot provide maxValueCount of 0 for OptionValueType.Required or OptionValueType.Optional.'#13#10'Parameter name: maxValueCount', p, 
     method(v: Object);
     begin
       new DefaultOption('a=', nil, 0);
     end);
 
-  Utils.AssertException(typeof(ArgumentException), 'Ill-formed name/value separator found in "a={".'#13#10'Parameter name: prototype', p,
+  Utils.AssertException(typeOf(ArgumentException), 'Ill-formed name/value separator found in "a={".'#13#10'Parameter name: prototype', p,
     method(v: Object);
     begin
       new DefaultOption('a={', nil);
     end);
 
-  Utils.AssertException(typeof(ArgumentException), 'Ill-formed name/value separator found in "a=}".'#13#10'Parameter name: prototype', p, 
+  Utils.AssertException(typeOf(ArgumentException), 'Ill-formed name/value separator found in "a=}".'#13#10'Parameter name: prototype', p, 
     method(v: Object);
     begin
       new DefaultOption('a=}', nil);
     end);
 
-  Utils.AssertException(typeof(ArgumentException), 'Ill-formed name/value separator found in "a={{}}".'#13#10'Parameter name: prototype', p, 
+  Utils.AssertException(typeOf(ArgumentException), 'Ill-formed name/value separator found in "a={{}}".'#13#10'Parameter name: prototype', p, 
     method(v: Object);
     begin
       new DefaultOption('a={{}}', nil);
     end);
 
-  Utils.AssertException(typeof(ArgumentException), 'Ill-formed name/value separator found in "a={}}".'#13#10'Parameter name: prototype', p, 
+  Utils.AssertException(typeOf(ArgumentException), 'Ill-formed name/value separator found in "a={}}".'#13#10'Parameter name: prototype', p, 
     method(v: Object);
     begin
       new DefaultOption('a={}}', nil);
     end);
 
-  Utils.AssertException(typeof(ArgumentException), 'Ill-formed name/value separator found in "a={}{".'#13#10'Parameter name: prototype', p, 
+  Utils.AssertException(typeOf(ArgumentException), 'Ill-formed name/value separator found in "a={}{".'#13#10'Parameter name: prototype', p, 
     method(v: Object);
     begin
       new DefaultOption('a={}{', nil);
     end);
 
-  Utils.AssertException(typeof(ArgumentException), 'Cannot provide key/value separators for Options taking 1 value(s).'#13#10'Parameter name: prototype', p, 
+  Utils.AssertException(typeOf(ArgumentException), 'Cannot provide key/value separators for Options taking 1 value(s).'#13#10'Parameter name: prototype', p, 
     method(v: Object);
     begin
       new DefaultOption('a==', nil);
     end);
 
-  Utils.AssertException(typeof(ArgumentException), 'Cannot provide key/value separators for Options taking 1 value(s).'#13#10'Parameter name: prototype', p, 
+  Utils.AssertException(typeOf(ArgumentException), 'Cannot provide key/value separators for Options taking 1 value(s).'#13#10'Parameter name: prototype', p, 
     method(v: Object);
     begin
       new DefaultOption('a={}', nil);
     end);
 
-  Utils.AssertException(typeof(ArgumentException), 'Cannot provide key/value separators for Options taking 1 value(s).'#13#10'Parameter name: prototype', p, 
+  Utils.AssertException(typeOf(ArgumentException), 'Cannot provide key/value separators for Options taking 1 value(s).'#13#10'Parameter name: prototype', p, 
     method(v: Object);
     begin
       new DefaultOption('a=+-*/', nil);

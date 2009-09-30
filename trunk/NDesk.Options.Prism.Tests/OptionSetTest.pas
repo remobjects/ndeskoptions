@@ -233,8 +233,8 @@ end;
 
 class method OptionSetTest.AssertDictionary<TKey, TValue>(dictionary: Dictionary<TKey, TValue>;  &set: array of String);
 begin
-  var lKeyConverter: TypeConverter := TypeDescriptor.GetConverter(typeof(TKey));
-  var lValueConverter: TypeConverter := TypeDescriptor.GetConverter(typeof(TValue));
+  var lKeyConverter: TypeConverter := TypeDescriptor.GetConverter(typeOf(TKey));
+  var lValueConverter: TypeConverter := TypeDescriptor.GetConverter(typeOf(TValue));
 
   Assert.AreEqual(dictionary.Count, (&set.Length div 2));
 
@@ -310,7 +310,7 @@ begin
   Assert.AreEqual('/foo', libs.Item[0]);
   Assert.IsNull(libs.Item[1]);
   
-  Utils.AssertException(typeof(OptionException), 'Cannot bundle unregistered option ''-V''.', p,
+  Utils.AssertException(typeOf(OptionException), 'Cannot bundle unregistered option ''-V''.', p,
     method(v: OptionSet);
     begin
       v.Parse(OptionSetTest._([ '-EVALUENOTSUP' ]));
@@ -403,7 +403,7 @@ begin
   Assert.AreEqual("k", a.Item['j']);
   Assert.AreEqual("m", a.Item['l']);
   
-  Utils.AssertException(typeof(OptionException), 'Missing required value for option ''-a''.', p,
+  Utils.AssertException(typeOf(OptionException), 'Missing required value for option ''-a''.', p,
     method(v: OptionSet);
     begin
       v.Parse(OptionSetTest._([ '-a=b' ]));
@@ -499,7 +499,7 @@ begin
   Assert.AreEqual(p.Item[0], p.GetOptionForName('help'));
   Assert.AreEqual(nil, p.GetOptionForName('invalid'));
 
-  Utils.AssertException(typeof(ArgumentException), 'prototypes must be null!', p,
+  Utils.AssertException(typeOf(ArgumentException), 'prototypes must be null!', p,
       method(v: CiOptionSet);
       begin
         v.Add<Int32>('N|NUM=',  method(n: Int32);
@@ -507,7 +507,7 @@ begin
                                 end);
       end);
 
-  Utils.AssertException(typeof(ArgumentNullException), 'Value cannot be null.'#13#10'Parameter name: option', p,
+  Utils.AssertException(typeOf(ArgumentNullException), 'Value cannot be null.'#13#10'Parameter name: option', p,
       method(v: CiOptionSet);
       begin
         v.GetOptionForName(nil);
@@ -525,7 +525,7 @@ begin
   p.Add<Int32>('n=', v -> begin end);
   p.Add<Foo>('f=', v -> begin end);
 
-  Utils.AssertException(typeof(OptionException), 'Missing required value for option ''-a''.', p, v -> v.Parse(OptionSetTest._([ '-a' ])));
+  Utils.AssertException(typeOf(OptionException), 'Missing required value for option ''-a''.', p, v -> v.Parse(OptionSetTest._([ '-a' ])));
 
   Utils.AssertException(nil, nil, p, v -> v.Parse(OptionSetTest._([ '-a', '-a' ])));
   Assert.AreEqual('-a', a);
@@ -533,17 +533,17 @@ begin
   Utils.AssertException(nil, nil, p, v -> v.Parse(OptionSetTest._([ '-a', '-b' ])));
   Assert.AreEqual('-b', a);
 
-  Utils.AssertException(typeof(ArgumentNullException), 'Value cannot be null.'#13#10'Parameter name: option', p, v -> v.Add(nil));
+  Utils.AssertException(typeOf(ArgumentNullException), 'Value cannot be null.'#13#10'Parameter name: option', p, v -> v.Add(nil));
 
-  Utils.AssertException(typeof(OptionException), 'Could not convert string `value'' to type Int32 for option `-n''.', p, v -> v.Parse(OptionSetTest._([ '-n', 'value' ])));
+  Utils.AssertException(typeOf(OptionException), 'Could not convert string `value'' to type Int32 for option `-n''.', p, v -> v.Parse(OptionSetTest._([ '-n', 'value' ])));
 
-  Utils.AssertException(typeof(OptionException), 'Could not convert string `invalid'' to type Foo for option `--f''.', p, v -> v.Parse(OptionSetTest._([ '--f', 'invalid' ])));
+  Utils.AssertException(typeOf(OptionException), 'Could not convert string `invalid'' to type Foo for option `--f''.', p, v -> v.Parse(OptionSetTest._([ '--f', 'invalid' ])));
 
-  Utils.AssertException(typeof(OptionException), 'Cannot bundle unregistered option ''-z''.', p, v -> v.Parse(OptionSetTest._([ '-cz', 'extra' ])));
+  Utils.AssertException(typeOf(OptionException), 'Cannot bundle unregistered option ''-z''.', p, v -> v.Parse(OptionSetTest._([ '-cz', 'extra' ])));
 
-  Utils.AssertException(typeof(ArgumentNullException), 'Value cannot be null.'#13#10'Parameter name: action', p, v -> v.Add('foo', nil));
+  Utils.AssertException(typeOf(ArgumentNullException), 'Value cannot be null.'#13#10'Parameter name: action', p, v -> v.Add('foo', nil));
 
-  Utils.AssertException(typeof(ArgumentException), 'Cannot provide maxValueCount of 2 for OptionValueType.None.'#13#10'Parameter name: maxValueCount', p, 
+  Utils.AssertException(typeOf(ArgumentException), 'Cannot provide maxValueCount of 2 for OptionValueType.None.'#13#10'Parameter name: maxValueCount', p, 
         v-> v.Add('foo', (k, val) -> begin end));
 end;
 
@@ -620,7 +620,7 @@ begin
 
   p.Add<Int32>('n=', v -> begin end);
 
-  Utils.AssertException(typeof(OptionException), 'hello!', p, v -> v.Parse(OptionSetTest._([ '-n=value' ])));
+  Utils.AssertException(typeOf(OptionException), 'hello!', p, v -> v.Parse(OptionSetTest._([ '-n=value' ])));
 
   var expected: StringWriter := new StringWriter();
   expected.WriteLine('  -nhello!                   hello!');

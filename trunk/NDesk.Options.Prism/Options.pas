@@ -896,13 +896,13 @@ begin
   else
     lNameStart := [ '{' + &index.ToString(CultureInfo.InvariantCulture) + ':' ];
 
-  for  I: Int32  :=  0  to  lNameStart.Length-1  do  begin
+  for  i: Int32  :=  0  to  lNameStart.Length-1  do  begin
     var  lStart: Int32;
-    var  J: Int32 := -1;
+    var  j: Int32 := -1;
     repeat
-      Inc(J);
-      lStart := description.IndexOf(lNameStart[i], J);
-    until  (not  iif((lStart >= 0) and (J <> 0), description[J-1] = '{', false));
+      inc(j);
+      lStart := description.IndexOf(lNameStart[i], j);
+    until  (not  iif((lStart >= 0) and (j <> 0), description[j-1] = '{', false));
     
     if  (lStart = -1)  then
       continue;
@@ -926,7 +926,7 @@ begin
   var  lResult: StringBuilder := new StringBuilder(description.Length);
   var  lStart: Int32 := -1;
 
-  for  I: Int32  :=  0  to  description.Length-1  do  begin
+  for  i: Int32  :=  0  to  description.Length-1  do  begin
     case  (description[i])  of
       '{':  begin
         if  (i = lStart)  then  begin
@@ -943,7 +943,7 @@ begin
           if  ((i + 1) = description.Length)  or  (description[i + 1] <> '}')  then
             raise  new InvalidOperationException('Invalid option description: ' + description);
 
-          Inc(i); // TODO Refactor this
+          inc(i); // TODO Refactor this
           lResult.Append('}');
         end
         else  begin
@@ -993,11 +993,11 @@ begin
 
       if  ((lChar = '-')  or 
             (Char.IsWhiteSpace(lChar) and (not (lChar in [ #10, #13 ]))))  then
-        Inc(lEnd)
+        inc(lEnd)
       else
         if  (not (lChar in [ #10, #13 ]))  then  begin
           lContinue := true;
-          Dec(lEnd);
+          dec(lEnd);
         end;
     end;
 
@@ -1009,7 +1009,7 @@ begin
     lStart := lEnd;
     
     if  ((lStart < lDescriptionLength)  and  (description[lStart] in [ #10, #13 ]))  then
-      Inc(lStart);
+      inc(lStart);
   until  (not (lEnd < lDescriptionLength));
   
   exit  (lLines);
@@ -1021,7 +1021,7 @@ begin
   var  lEnd: Int32 := Math.Min(start + length, description.Length);
   var  lSeparator: Int32 := -1;
   
-  for  I: Int32  :=  start  to  lEnd-1  do
+  for  i: Int32  :=  start  to  lEnd-1  do
     case  description[i]  of
       ' ',
       #09,
@@ -1081,7 +1081,7 @@ begin
   var  lOption: Option := self.Items[&index];
   var  lDictionary := self.Dictionary;
 
-	for  I: Int32  :=  1  to  lOption.Names.Length  do
+	for  i: Int32  :=  1  to  lOption.Names.Length  do
     lDictionary.Remove(lOption.Names[i]);
 end;
 
@@ -1365,7 +1365,7 @@ end;
 class method OptionSet.GetNextOptionIndex(names: array of String;  i: Int32): Int32;
 begin
   while  ((i < names.Length)  And  (names[i] = '<>'))  do
-    Inc(i);
+    inc(i);
 
   exit  (i);
 end;
