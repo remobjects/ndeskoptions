@@ -601,7 +601,8 @@ begin
   OptionSetTest.AssertDictionary<String, String>(a, [ 'a', 'b' ]);
 
   a.Clear();
-  p.Parse(OptionSetTest._([ '-dA=>B', '-d', 'C-->D', '-d:E', 'F', '-d', 'G', 'H', '-dJ-->K' ]));
+  //p.Parse(OptionSetTest._([ '-dA=>B', '-d', 'C-->D', '-d:E', 'F', '-d', 'G', 'H', '-dJ-->K' ]));
+  p.Parse('-dA=>B -d C-->D -d:E F -d G H -dJ-->K');
   OptionSetTest.AssertDictionary<String, String>(a, [ 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'J', 'K' ]);
 
   a.Clear();

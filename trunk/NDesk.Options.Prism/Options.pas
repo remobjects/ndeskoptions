@@ -319,7 +319,8 @@ type
     method &Add<TKey, TValue>(prototype: String;  action: OptionAction<TKey, TValue>): OptionSet;
     method &Add<TKey, TValue>(prototype: String;  description: String;  action: OptionAction<TKey, TValue>): OptionSet;
 
-    method Parse(arguments: IEnumerable<String>): List<String>; // TODO - restore LINQ definition
+    method Parse(arguments: IEnumerable<String>): List<String>;
+    method Parse(argument: String): List<String>;
 
     method WriteOptionDescriptions(o: TextWriter);
     method WriteOptionPrototype(o: TextWriter; p: Option; var written: Int32): Boolean;
@@ -336,7 +337,7 @@ type
     var  fAction: Action<OptionValueCollection>;
 
   protected
-    method OnParseComplete(optionContext: OptionContext);override;
+    method OnParseComplete(optionContext: OptionContext); override;
 
   public
     constructor (prototype: String;  description: String;  count: Int32;  action: Action<OptionValueCollection>);
@@ -368,6 +369,21 @@ type
 
 
   OptionAction<TKey, TValue> = public delegate(key: TKey; value: TValue);
+
+
+  OptionCommandLine = public static class
+  public
+    class method Parse(const commandLine: String): array of String;
+  end;
+
+
+  ParserState nested in OptionCommandLine = private enum
+    (
+    Separator,
+    Token,
+    QuotedToken,
+    QuotedTokenStart,
+    QuotedTokenEnd);
 
 
 implementation
@@ -943,7 +959,7 @@ begin
           if  ((i + 1) = description.Length)  or  (description[i + 1] <> '}')  then
             raise  new InvalidOperationException('Invalid option description: ' + description);
 
-          inc(i); // TODO Refactor this
+          inc(i);
           lResult.Append('}');
         end
         else  begin
@@ -1284,6 +1300,12 @@ begin
 end;
 
 
+method OptionSet.Parse(argument: String): List<String>;
+begin
+  self.Parse(OptionCommandLine.Parse(argument));
+end;
+
+
 method OptionSet.WriteOptionDescriptions(o: TextWriter);
 begin
   for each  lOption: Option  in  self.Items  do  begin
@@ -1435,6 +1457,112 @@ end;
 method OptionSet.ActionOption<TKey,TValue>.OnParseComplete(optionContext: OptionContext);
 begin
   self.fAction(Parse<TKey>(optionContext.OptionValues[0], optionContext), Parse<TValue>(optionContext.OptionValues[1], optionContext));
+end;
+{$ENDREGION}
+
+
+{$REGION OptionCommandLine }
+class method OptionCommandLine.Parse(const commandLine: String): array of String;
+  method ExtractItem(const source: String;  startIndex: Int32;  endIndex: Int32;  dequote: Boolean): String;
+  begin
+    if  (dequote)  then  begin
+      inc(startIndex);
+      dec(endIndex);
+    end;
+    if  (endIndex < startIndex)  then
+      exit  (String.Empty);
+
+    var  lResult: String := source.Substring(startIndex, endIndex-startIndex+1);
+
+    if  (dequote)  then
+      lResult := lResult.Replace('""', '"');
+
+    exit  (lResult);
+  end;
+begin
+  if  (not  assigned(commandLine))  then
+    exit  (nil);
+
+  if  (commandLine = String.Empty)  then
+    exit  ([]);
+
+  // Ordinary Finite-State machine
+  var  lParserState: OptionCommandLine.ParserState := OptionCommandLine.ParserState.Separator;
+  var  lResult: List<String> := new List<String>(16);
+  var  lStartIndex: Int32 := -1;
+  var  lParserPosition: Int32 := 0;
+  var  lCommandLineLength: Int32 := commandLine.Length;
+
+  while  (true)  do  begin
+    if  (lParserPosition >= lCommandLineLength)  then  begin
+      case  lParserState  of
+        OptionCommandLine.ParserState.QuotedToken,
+        OptionCommandLine.ParserState.QuotedTokenStart,
+        OptionCommandLine.ParserState.Token:
+          lResult.Add(ExtractItem(commandLine, lStartIndex, lParserPosition-1, false));
+        
+        OptionCommandLine.ParserState.QuotedTokenEnd:
+          lResult.Add(ExtractItem(commandLine, lStartIndex, lParserPosition-1, true));
+
+        OptionCommandLine.ParserState.Separator:
+          ;
+      end; // case
+      break;
+    end;
+
+    var  lParserChar: Char := commandLine[lParserPosition];
+
+    case  lParserState  of
+      OptionCommandLine.ParserState.Separator:
+        case  lParserChar  of
+          ' ':  ;
+
+          '"':  begin
+            lStartIndex := lParserPosition;
+            lParserState := OptionCommandLine.ParserState.QuotedTokenStart;
+          end;
+
+          else  begin
+            lStartIndex := lParserPosition;
+            lParserState := OptionCommandLine.ParserState.Token;
+          end;
+        end;
+
+      OptionCommandLine.ParserState.Token:
+        case  lParserChar  of
+          ' ':  begin
+            lResult.Add(ExtractItem(commandLine, lStartIndex, lParserPosition-1, false));
+            lParserState := OptionCommandLine.ParserState.Separator;
+          end;
+        end;
+
+      OptionCommandLine.ParserState.QuotedToken:
+         case  lParserChar  of
+           '"': lParserState := OptionCommandLine.ParserState.QuotedTokenEnd;
+         end;
+      
+      OptionCommandLine.ParserState.QuotedTokenStart:
+         case  lParserChar  of
+           '"': lParserState := OptionCommandLine.ParserState.QuotedTokenEnd;
+
+           else  lParserState := OptionCommandLine.ParserState.QuotedToken;
+         end;
+
+      OptionCommandLine.ParserState.QuotedTokenEnd:
+         case  lParserChar  of
+           ' ':  begin
+            lResult.Add(ExtractItem(commandLine, lStartIndex, lParserPosition-1, true));
+            lParserState := OptionCommandLine.ParserState.Separator;
+          end;
+
+          else  lParserState := OptionCommandLine.ParserState.QuotedToken;
+         end;
+    end; // case
+
+    inc(lParserPosition);
+  end;
+
+  exit  (lResult.ToArray());
 end;
 {$ENDREGION}
 

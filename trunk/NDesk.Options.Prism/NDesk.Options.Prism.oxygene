@@ -1,4 +1,4 @@
-﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" >
+﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
   <PropertyGroup>
     <ProductVersion>3.5</ProductVersion>
     <RootNamespace>NDesk.Options</RootNamespace>
@@ -17,8 +17,8 @@
     <ProjectGuid>{eb1a6efb-37f3-4905-a926-454c8eff194d}</ProjectGuid>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
-    <Optimize>false</Optimize>
-    <OutputPath>.\bin\Debug</OutputPath>
+    <Optimize>True</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE;</DefineConstants>
     <GeneratePDB>True</GeneratePDB>
     <GenerateMDB>True</GenerateMDB>
@@ -32,6 +32,16 @@
     <XmlDoc>False</XmlDoc>
     <XmlDocWarningLevel>WarningOnPublicMembers</XmlDocWarningLevel>
     <EnableUnmanagedDebugging>False</EnableUnmanagedDebugging>
+    <SuppressWarnings>
+    </SuppressWarnings>
+    <CodeFlowAnalysis>True</CodeFlowAnalysis>
+    <UseXmlDoc>False</UseXmlDoc>
+    <XmlDocAllMembers>False</XmlDocAllMembers>
+    <WarnOnCaseMismatch>True</WarnOnCaseMismatch>
+    <RunCodeAnalysis>False</RunCodeAnalysis>
+    <RequireExplicitLocalInitialization>False</RequireExplicitLocalInitialization>
+    <FutureHelperClassName>
+    </FutureHelperClassName>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
     <Optimize>true</Optimize>

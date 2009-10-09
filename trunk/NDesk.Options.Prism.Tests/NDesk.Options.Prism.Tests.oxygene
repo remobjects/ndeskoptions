@@ -17,8 +17,8 @@
     <ProjectGuid>{18ceafa0-4a14-4094-9415-bb9869eaf3a7}</ProjectGuid>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
-    <Optimize>false</Optimize>
-    <OutputPath>.\bin\Debug</OutputPath>
+    <Optimize>False</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE;</DefineConstants>
     <GeneratePDB>True</GeneratePDB>
     <GenerateMDB>True</GenerateMDB>
@@ -32,6 +32,16 @@
     <XmlDoc>False</XmlDoc>
     <XmlDocWarningLevel>WarningOnPublicMembers</XmlDocWarningLevel>
     <EnableUnmanagedDebugging>False</EnableUnmanagedDebugging>
+    <SuppressWarnings>
+    </SuppressWarnings>
+    <CodeFlowAnalysis>True</CodeFlowAnalysis>
+    <UseXmlDoc>False</UseXmlDoc>
+    <XmlDocAllMembers>False</XmlDocAllMembers>
+    <WarnOnCaseMismatch>True</WarnOnCaseMismatch>
+    <RunCodeAnalysis>False</RunCodeAnalysis>
+    <RequireExplicitLocalInitialization>False</RequireExplicitLocalInitialization>
+    <FutureHelperClassName>
+    </FutureHelperClassName>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
     <Optimize>true</Optimize>
@@ -69,6 +79,8 @@
     <Compile Include="AuxClasses\Foo.pas">
     </Compile>
     <Compile Include="AuxClasses\FooConverter.pas">
+    </Compile>
+    <Compile Include="OptionCommandLineTest.pas">
     </Compile>
     <Compile Include="OptionContextTest.pas">
     </Compile>
