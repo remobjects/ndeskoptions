@@ -1302,7 +1302,7 @@ end;
 
 method OptionSet.Parse(argument: String): List<String>;
 begin
-  self.Parse(OptionCommandLine.Parse(argument));
+  exit  (self.Parse(OptionCommandLine.Parse(argument)));
 end;
 
 
@@ -1515,7 +1515,10 @@ begin
     case  lParserState  of
       OptionCommandLine.ParserState.Separator:
         case  lParserChar  of
-          ' ':  ;
+          ' ',
+          #13,
+          #10,
+          #09:  ;
 
           '"':  begin
             lStartIndex := lParserPosition;
@@ -1530,7 +1533,10 @@ begin
 
       OptionCommandLine.ParserState.Token:
         case  lParserChar  of
-          ' ':  begin
+          ' ',
+          #13,
+          #10,
+          #09:  begin
             lResult.Add(ExtractItem(commandLine, lStartIndex, lParserPosition-1, false));
             lParserState := OptionCommandLine.ParserState.Separator;
           end;
@@ -1550,7 +1556,10 @@ begin
 
       OptionCommandLine.ParserState.QuotedTokenEnd:
          case  lParserChar  of
-           ' ':  begin
+          ' ',
+          #13,
+          #10,
+          #09:  begin
             lResult.Add(ExtractItem(commandLine, lStartIndex, lParserPosition-1, true));
             lParserState := OptionCommandLine.ParserState.Separator;
           end;

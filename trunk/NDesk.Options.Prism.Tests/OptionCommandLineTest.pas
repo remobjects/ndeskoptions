@@ -54,10 +54,10 @@ begin
   self.ParserTestRun('A"B C ',           [ 'A"B', 'C' ]);
   self.ParserTestRun('A  B"',            [ 'A', 'B"' ]);
   self.ParserTestRun('A  B""',           [ 'A', 'B""' ]);
-  self.ParserTestRun('A  "B C" ',        [ 'A', 'B C' ]);
+  self.ParserTestRun('A'#09'  "B C" ',        [ 'A', 'B C' ]);
   self.ParserTestRun('"A  B C"',         [ 'A  B C' ]);
-  self.ParserTestRun('A  "B C ',         [ 'A', '"B C ' ]);
-  self.ParserTestRun('A  "B C"',         [ 'A', 'B C' ]);
+  self.ParserTestRun('A'#10'"B C ',         [ 'A', '"B C ' ]);
+  self.ParserTestRun('A'#13'"B C"',         [ 'A', 'B C' ]);
 end;
 
 
