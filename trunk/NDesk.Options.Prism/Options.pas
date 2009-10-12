@@ -1463,21 +1463,12 @@ end;
 
 {$REGION OptionCommandLine }
 class method OptionCommandLine.Parse(const commandLine: String): array of String;
-  method ExtractItem(const source: String;  startIndex: Int32;  endIndex: Int32;  dequote: Boolean): String;
+  method ExtractItem(const source: String;  startIndex: Int32;  endIndex: Int32): String;
   begin
-    if  (dequote)  then  begin
-      inc(startIndex);
-      dec(endIndex);
-    end;
     if  (endIndex < startIndex)  then
       exit  (String.Empty);
 
-    var  lResult: String := source.Substring(startIndex, endIndex-startIndex+1);
-
-    if  (dequote)  then
-      lResult := lResult.Replace('""', '"');
-
-    exit  (lResult);
+    exit  (source.Substring(startIndex, endIndex-startIndex+1));
   end;
 begin
   if  (not  assigned(commandLine))  then
@@ -1499,10 +1490,10 @@ begin
         OptionCommandLine.ParserState.QuotedToken,
         OptionCommandLine.ParserState.QuotedTokenStart,
         OptionCommandLine.ParserState.Token:
-          lResult.Add(ExtractItem(commandLine, lStartIndex, lParserPosition-1, false));
+          lResult.Add(ExtractItem(commandLine, lStartIndex, lParserPosition-1));
         
         OptionCommandLine.ParserState.QuotedTokenEnd:
-          lResult.Add(ExtractItem(commandLine, lStartIndex, lParserPosition-1, true));
+          lResult.Add(ExtractItem(commandLine, lStartIndex, lParserPosition-1));
 
         OptionCommandLine.ParserState.Separator:
           ;
@@ -1537,9 +1528,12 @@ begin
           #13,
           #10,
           #09:  begin
-            lResult.Add(ExtractItem(commandLine, lStartIndex, lParserPosition-1, false));
+            lResult.Add(ExtractItem(commandLine, lStartIndex, lParserPosition-1));
             lParserState := OptionCommandLine.ParserState.Separator;
           end;
+
+          '"':
+            lParserState := OptionCommandLine.ParserState.QuotedToken;
         end;
 
       OptionCommandLine.ParserState.QuotedToken:
@@ -1560,7 +1554,7 @@ begin
           #13,
           #10,
           #09:  begin
-            lResult.Add(ExtractItem(commandLine, lStartIndex, lParserPosition-1, true));
+            lResult.Add(ExtractItem(commandLine, lStartIndex, lParserPosition-1));
             lParserState := OptionCommandLine.ParserState.Separator;
           end;
 

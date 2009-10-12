@@ -45,19 +45,20 @@ begin
   self.ParserTestRun('Item1',            [ 'Item1' ]);
   self.ParserTestRun(' Item1  Item2 ',   [ 'Item1', 'Item2' ]);
   self.ParserTestRun(' Item1  Item2 I3', [ 'Item1', 'Item2', 'I3' ]);
-  self.ParserTestRun('A "B""C" ',        [ 'A', 'B"C' ]);
-  self.ParserTestRun('A """"',           [ 'A', '"' ]);
-  self.ParserTestRun('A "" B',           [ 'A', '', 'B' ]);
+  self.ParserTestRun('A "B""C" ',        [ 'A', '"B""C"' ]);
+  self.ParserTestRun('A """"',           [ 'A', '""""' ]);
+  self.ParserTestRun('A "" B',           [ 'A', '""', 'B' ]);
   self.ParserTestRun('A  B C ',          [ 'A', 'B', 'C' ]);
-  self.ParserTestRun('A"  B C ',         [ 'A"', 'B', 'C' ]);
-  self.ParserTestRun('A""B C ',          [ 'A""B', 'C' ]);
-  self.ParserTestRun('A"B C ',           [ 'A"B', 'C' ]);
+  self.ParserTestRun('A"  B" C ',        [ 'A"  B"', 'C' ]);
+  self.ParserTestRun('A""B C ',          [ 'A""B C ' ]);
+  self.ParserTestRun('A"B C',            [ 'A"B C' ]);
   self.ParserTestRun('A  B"',            [ 'A', 'B"' ]);
   self.ParserTestRun('A  B""',           [ 'A', 'B""' ]);
-  self.ParserTestRun('A'#09'  "B C" ',        [ 'A', 'B C' ]);
-  self.ParserTestRun('"A  B C"',         [ 'A  B C' ]);
-  self.ParserTestRun('A'#10'"B C ',         [ 'A', '"B C ' ]);
-  self.ParserTestRun('A'#13'"B C"',         [ 'A', 'B C' ]);
+  self.ParserTestRun('A'#09'  "B C" ',   [ 'A', '"B C"' ]);
+  self.ParserTestRun('"A  B C"',         [ '"A  B C"' ]);
+  self.ParserTestRun('A'#10'"B C ',      [ 'A', '"B C ' ]);
+  self.ParserTestRun('A'#13'"B C"',      [ 'A', '"B C"' ]);
+  self.ParserTestRun('A B"C D"',         [ 'A', 'B"C D"' ]);
 end;
 
 
