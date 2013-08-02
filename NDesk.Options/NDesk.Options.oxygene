@@ -1,10 +1,10 @@
 ﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
   <PropertyGroup>
     <ProductVersion>3.5</ProductVersion>
-    <RootNamespace>NDesk.Options.Prism.Tests</RootNamespace>
+    <RootNamespace>NDesk.Options</RootNamespace>
     <StartupClass />
-    <OutputType>library</OutputType>
-    <AssemblyName>NDesk.Options.Prism.Tests</AssemblyName>
+    <OutputType>Library</OutputType>
+    <AssemblyName>NDesk.Options</AssemblyName>
     <AllowGlobals>False</AllowGlobals>
     <AllowLegacyWith>False</AllowLegacyWith>
     <AllowLegacyOutParams>False</AllowLegacyOutParams>
@@ -13,11 +13,11 @@
     <ApplicationIcon />
     <Configuration Condition="'$(Configuration)' == ''">Release</Configuration>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
-    <Name>NDesk.Options.Prism.Tests</Name>
-    <ProjectGuid>{18ceafa0-4a14-4094-9415-bb9869eaf3a7}</ProjectGuid>
+    <Name>NDesk.Options</Name>
+    <ProjectGuid>{eb1a6efb-37f3-4905-a926-454c8eff194d}</ProjectGuid>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
-    <Optimize>False</Optimize>
+    <Optimize>True</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE;</DefineConstants>
     <GeneratePDB>True</GeneratePDB>
@@ -62,56 +62,16 @@
   <ItemGroup>
     <Reference Include="mscorlib">
     </Reference>
-    <Reference Include="nunit.framework">
-      <Name>nunit.framework</Name>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="nunit.mocks">
-      <Name>nunit.mocks</Name>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="System">
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AuxClasses\DefaultOption.pas">
-    </Compile>
-    <Compile Include="AuxClasses\Foo.pas">
-    </Compile>
-    <Compile Include="AuxClasses\FooConverter.pas">
-    </Compile>
-    <Compile Include="OptionCommandLineTest.pas">
-    </Compile>
-    <Compile Include="OptionContextTest.pas">
-    </Compile>
-    <Compile Include="OptionSetTest.pas">
-    </Compile>
-    <Compile Include="OptionTest.pas">
+    <Compile Include="Options.pas">
     </Compile>
     <Compile Include="Properties\AssemblyInfo.pas" />
-    <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-    </EmbeddedResource>
-    <Compile Include="Properties\Resources.Designer.pas" />
-    <None Include="Properties\Settings.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
-    </None>
-    <Compile Include="Properties\Settings.Designer.pas" />
-    <Compile Include="Utils\Utils.pas">
-    </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="AuxClasses" />
-    <Folder Include="Utils" />
     <Folder Include="Properties\" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\NDesk.Options.Prism\NDesk.Options.Prism.oxygene">
-      <Name>NDesk.Options.Prism</Name>
-      <Project>{eb1a6efb-37f3-4905-a926-454c8eff194d}</Project>
-      <Private>True</Private>
-      <HintPath>..\NDesk.Options.Prism\bin\Debug\NDesk.Options.Prism.dll</HintPath>
-    </ProjectReference>
-  </ItemGroup>
-  <Import Project="$(MSBuildExtensionsPath)\RemObjects Software\Oxygene\RemObjects.Oxygene.targets" />
+  <Import Project="$(MSBuildExtensionsPath)\RemObjects Software\Oxygene\RemObjects.Oxygene.Echoes.targets" />
 </Project>

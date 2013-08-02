@@ -27,42 +27,55 @@
 // OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
-namespace  NDesk.Options.Prism.Tests;
+namespace  NDesk.Options.Tests;
 
 interface
 uses
-  System.ComponentModel;
+  NUnit.Framework,
+  NDesk.Options;
 
 type
-  [TypeConverter(typeof(FooConverter))]
-  Foo = class
-  private
-    var fValue: String;
-
+  [TestFixture]
+  OptionContextTest = public class
   public
-    class var A: Foo := new Foo('A'); readonly; 
-    class var B: Foo := new Foo('B'); readonly; 
-
-    constructor (value: String);
-
-    method ToString(): String; override;
+    [Test]
+    method Exceptions_Test();
   end;
 
 
 implementation
 
 
-constructor Foo(value: String);
+
+method OptionContextTest.Exceptions_Test();
 begin
-  self.fValue := value;
+  var  lOptionSet: OptionSet := new OptionSet();
+  lOptionSet.Add('a=',
+    method(v: String);
+    begin
+    end);
+
+  var lContext: OptionContext := new OptionContext(lOptionSet);
+  Utils.AssertException(typeOf(InvalidOperationException), 'OptionContext.Option is null.', lContext, 
+    method(v: OptionContext);
+    begin
+      var ignore: String := v.OptionValues.Item[0];
+    end);
+
+  lContext.Option := lOptionSet.Item[0];
+  Utils.AssertException(typeOf(ArgumentOutOfRangeException), 'Specified argument was out of the range of valid values.'#13#10'Parameter name: index', lContext,
+    method(v: OptionContext);
+    begin
+      var ignore: String := v.OptionValues.Item[2];
+    end);
+  
+  lContext.OptionName := '-a';
+  Utils.AssertException(typeOf(OptionException), 'Missing required value for option ''-a''.', lContext,
+    method(v: OptionContext);
+    begin
+      var ignore: String := v.OptionValues.Item[0];
+    end);
 end;
-
-
-method Foo.ToString(): String;
-begin
-  exit  (self.fValue);
-end;
-
 
 end.
 

@@ -1,4 +1,4 @@
-﻿//
+//
 // Converted to Delphi Prism from original code by Anton Kasyanov
 // (CS2PAS utility was used (http://code.remobjects.com/p/csharptoxy/))
 // NDesk.Options is available at http://www.ndesk.org/Options
@@ -27,56 +27,47 @@
 // OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
-namespace  NDesk.Options.Prism.Tests;
+namespace NDesk.Options.Tests;
 
 interface
+
 uses
-  NUnit.Framework,
-  NDesk.Options;
+  System;
 
 type
-  [TestFixture]
-  OptionContextTest = public class
+  Utils = static class
   public
-    [Test]
-    method Exceptions_Test();
+    class method AssertException<T>(exception: &Type;  message: String;  argument: T;  action: Action<T>);
   end;
 
 
 implementation
 
-
-
-method OptionContextTest.Exceptions_Test();
+class method Utils.AssertException<T>(exception: &Type;  message: String;  argument: T;  action: Action<T>);
 begin
-  var  lOptionSet: OptionSet := new OptionSet();
-  lOptionSet.Add('a=',
-    method(v: String);
-    begin
-    end);
+  var lActualType: &Type := nil;
+  var lStack: String := nil;
+  var lActualMessage: String := nil;
 
-  var lContext: OptionContext := new OptionContext(lOptionSet);
-  Utils.AssertException(typeOf(InvalidOperationException), 'OptionContext.Option is null.', lContext, 
-    method(v: OptionContext);
-    begin
-      var ignore: String := v.OptionValues.Item[0];
-    end);
+  try
+    action(argument);
+  except
+    on  E: Exception  do  begin
+      lActualType := E.GetType();
+      lActualMessage := E.Message;
+      if  (not Object.&Equals(lActualType, exception))  then
+        lStack := E.ToString()
+    end
+  end;
 
-  lContext.Option := lOptionSet.Item[0];
-  Utils.AssertException(typeOf(ArgumentOutOfRangeException), 'Specified argument was out of the range of valid values.'#13#10'Parameter name: index', lContext,
-    method(v: OptionContext);
-    begin
-      var ignore: String := v.OptionValues.Item[2];
-    end);
+  if  (not Object.&Equals(lActualType, exception))  then
+    raise  new  InvalidOperationException(String.Format('Assertion failed: Expected Exception Type {0}, got {1}.' + Environment.NewLine + 'Actual Exception: {2}', exception, lActualType, lStack));
+
+  NUnit.Framework.Assert.AreEqual(lActualMessage, message);
   
-  lContext.OptionName := '-a';
-  Utils.AssertException(typeOf(OptionException), 'Missing required value for option ''-a''.', lContext,
-    method(v: OptionContext);
-    begin
-      var ignore: String := v.OptionValues.Item[0];
-    end);
+  if  (not Object.&Equals(lActualMessage, message))  then
+    raise new InvalidOperationException(String.Format('Assertion failed:' + Environment.NewLine + 'Expected: {0}' + Environment.NewLine + '  Actual: {1}', message, lActualMessage))
 end;
 
+
 end.
-
-

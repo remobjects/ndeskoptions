@@ -27,47 +27,43 @@
 // OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
-namespace NDesk.Options.Prism.Tests;
+namespace  NDesk.Options.Tests;
 
 interface
-
 uses
-  System;
+  System.ComponentModel;
 
 type
-  Utils = static class
+  [TypeConverter(typeOf(FooConverter))]
+  Foo = class
+  private
+    var fValue: String;
+
   public
-    class method AssertException<T>(exception: &Type;  message: String;  argument: T;  action: Action<T>);
+    class var A: Foo := new Foo('A'); readonly; 
+    class var B: Foo := new Foo('B'); readonly; 
+
+    constructor (value: String);
+
+    method ToString(): String; override;
   end;
 
 
 implementation
 
-class method Utils.AssertException<T>(exception: &Type;  message: String;  argument: T;  action: Action<T>);
+
+constructor Foo(value: String);
 begin
-  var lActualType: &Type := nil;
-  var lStack: String := nil;
-  var lActualMessage: String := nil;
+  self.fValue := value;
+end;
 
-  try
-    action(argument);
-  except
-    on  E: Exception  do  begin
-      lActualType := E.GetType();
-      lActualMessage := E.Message;
-      if  (not Object.&Equals(lActualType, exception))  then
-        lStack := E.ToString()
-    end
-  end;
 
-  if  (not Object.&Equals(lActualType, exception))  then
-    raise  new  InvalidOperationException(String.Format('Assertion failed: Expected Exception Type {0}, got {1}.' + Environment.NewLine + 'Actual Exception: {2}', exception, lActualType, lStack));
-
-  NUnit.Framework.Assert.AreEqual(lActualMessage, message);
-  
-  if  (not Object.&Equals(lActualMessage, message))  then
-    raise new InvalidOperationException(String.Format('Assertion failed:' + Environment.NewLine + 'Expected: {0}' + Environment.NewLine + '  Actual: {1}', message, lActualMessage))
+method Foo.ToString(): String;
+begin
+  exit  (self.fValue);
 end;
 
 
 end.
+
+

@@ -1,0 +1,26 @@
+
+Microsoft Visual Studio Solution File, Format Version 12.00
+# RemObjects Fire
+Project("{656346D9-4656-40DA-A068-22D5425D4639}") = "NDesk.Options", "NDesk.Options\NDesk.Options.oxygene", "{EB1A6EFB-37F3-4905-A926-454C8EFF194D}"
+EndProject
+Project("{656346D9-4656-40DA-A068-22D5425D4639}") = "NDesk.Options.Tests", "NDesk.Options.Tests\NDesk.Options.Tests.oxygene", "{18CEAFA0-4A14-4094-9415-BB9869EAF3A7}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|AnyCPU = Debug|AnyCPU
+		Release|AnyCPU = Release|AnyCPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{EB1A6EFB-37F3-4905-A926-454C8EFF194D}.Debug|AnyCPU.ActiveCfg = Debug|AnyCPU
+		{EB1A6EFB-37F3-4905-A926-454C8EFF194D}.Debug|AnyCPU.Build.0 = Debug|AnyCPU
+		{EB1A6EFB-37F3-4905-A926-454C8EFF194D}.Release|AnyCPU.ActiveCfg = Release|AnyCPU
+		{EB1A6EFB-37F3-4905-A926-454C8EFF194D}.Release|AnyCPU.Build.0 = Release|AnyCPU
+		{18CEAFA0-4A14-4094-9415-BB9869EAF3A7}.Debug|AnyCPU.ActiveCfg = Debug|AnyCPU
+		{18CEAFA0-4A14-4094-9415-BB9869EAF3A7}.Debug|AnyCPU.Build.0 = Debug|AnyCPU
+		{18CEAFA0-4A14-4094-9415-BB9869EAF3A7}.Release|AnyCPU.ActiveCfg = Release|AnyCPU
+		{18CEAFA0-4A14-4094-9415-BB9869EAF3A7}.Release|AnyCPU.Build.0 = Release|AnyCPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		ideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

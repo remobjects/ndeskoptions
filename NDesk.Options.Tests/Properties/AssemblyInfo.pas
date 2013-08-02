@@ -1,4 +1,4 @@
-﻿namespace NDesk.Options.Prism.Tests;
+﻿namespace NDesk.Options.Tests;
 
 interface
 

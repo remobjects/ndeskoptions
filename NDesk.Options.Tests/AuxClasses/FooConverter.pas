@@ -1,5 +1,5 @@
 ﻿//
-// Converted to Delphi Prism from original code by Anton Kasyanov
+// Converted to Oxygene from original C# code by Anton Kasyanov
 // (CS2PAS utility was used (http://code.remobjects.com/p/csharptoxy/))
 // NDesk.Options is available at http://www.ndesk.org/Options
 //
@@ -15,10 +15,10 @@
 // distribute, sublicense, and/or sell copies of the Software, and to
 // permit persons to whom the Software is furnished to do so, subject to
 // the following conditions:
-// 
+//
 // The above copyright notice and this permission notice shall be
 // included in all copies or substantial portions of the Software.
-// 
+//
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 // EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
 // MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -27,40 +27,42 @@
 // OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
-namespace  NDesk.Options.Prism.Tests;
+namespace  NDesk.Options.Tests;
 
 interface
-
 uses
-  NDesk.Options;
+  System.ComponentModel,
+  System.Globalization;
 
 type
-  DefaultOption = assembly class(Option)
-  protected
-    method OnParseComplete(optionContext: NDesk.Options.OptionContext); override;
-
+  FooConverter = class(TypeConverter)
   public
-    constructor(prototypes: String;  description: String;  count: Int32 := 1);
+    method  CanConvertFrom(context: ITypeDescriptorContext;  sourceType: &Type): Boolean; override;
+    method ConvertFrom(context: ITypeDescriptorContext;  culture: CultureInfo;  value: Object): Object; override;
   end;
 
 
 implementation
 
 
-{$REGION Constructor }
-constructor DefaultOption(prototypes: String;  description: String;  count: Int32 := 1);
+method FooConverter.CanConvertFrom(context: ITypeDescriptorContext;  sourceType: &Type): Boolean;
 begin
-  inherited constructor(prototypes, description, count);
+  exit  (((sourceType = typeOf(String)) or inherited CanConvertFrom(context, sourceType)));
 end;
-{$ENDREGION}
 
 
-method DefaultOption.OnParseComplete(optionContext: NDesk.Options.OptionContext);
+method FooConverter.ConvertFrom(context: ITypeDescriptorContext;  culture: CultureInfo;  value: Object): Object;
 begin
-  raise new NotImplementedException();
+  var lValue: String := String(value);
+
+  if  (assigned(lValue))  then
+    case  lValue  of
+      "A":  exit  (Foo.A);
+      "B":  exit  (Foo.B);
+    end;
+
+  exit  (inherited  ConvertFrom(context, culture, value));
 end;
 
 
 end.
-
-
